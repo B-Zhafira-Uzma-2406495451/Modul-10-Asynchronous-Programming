@@ -51,7 +51,7 @@ bersamaan:
 ![Simulasi Pengiriman Pesan Lintas Client](./image-2-1-2.png)
 ![Simulasi Pengiriman Pesan Lintas Client](./image-2-1-3.png)
 
-#### Panduan Menjalankan Program
+### Panduan Menjalankan Program
 Untuk mereplikasi hasil eksekusi di atas, berikut adalah langkah-langkah pemanggilan menggunakan beberapa terminal
 terpisah:
 1. Menjalankan Server: Buka terminal utama dan jalankan perintah `cargo run --bin server`. Terminal ini berfungsi
@@ -61,7 +61,7 @@ sebagai pusat pengendali jaringan yang mendengarkan koneksi masuk pada port `200
 3. Interaksi Obrolan: Ketikkan pesan teks di salah satu jendela klien lalu tekan `Enter`. Pesan tersebut akan langsung
 disebarkan dan muncul di seluruh terminal klien lainnya secara real-time.
 
-#### Analisis Alur Kerja dan Mekanisme Asinkron
+### Analisis Alur Kerja dan Mekanisme Asinkron
 Keberhasilan interaksi komunikasi data tanpa hambatan pada aplikasi obrolan ini didasarkan pada dua pilar utama 
 arsitektur asinkron yang disediakan oleh ekosistem Tokio di Rust yaitu 
 1. Konkurensi Jaringan Jelas Melalui`tokio::select!` di mana baik pada komponen klien maupun server, terdapat makro
@@ -79,3 +79,22 @@ dimasukkan ke dalam ujung pengirim saluran (`bcast_tx`). Karena setiap koneksi k
 subscribed ke saluran tersebut melalui `bcast_tx.subscribe()`, ujung penerima masing-masing koneksi (`bcast_rx`) akan
 mendeteksi adanya data baru secara asinkron. Kejadian ini langsung memicu pembungkusan data kembali ke dalam protokol
 WebSocket untuk ditembakkan menuju terminal klien masing-masing secara paralel dan instan.
+
+## Experiment 2.2: Modifying port
+Proses pengalihan port komunikasi dari `2000` menjadi `8080` pada broadcast chat ini melibatkan modifikasi terstruktur 
+pada kedua belah pihak jaringan karena sistem menggunakan arsitektur client-server. Pada sisi server yang berada di
+dalam file `src/bin/server.rs`, perubahan dilakukan pada fungsi pemikatan local socket `TcpListener::bind` agar sistem
+operasi membuka port `8080` untuk mendengarkan koneksi masuk. Secara sinkron, modifikasi juga wajib diterapkan pada sisi
+klien di dalam file `src/bin/client.rs` dengan menyesuaikan target pencari lokasi sumber seragam
+(`ClientBuilder::from_uri`) menjadi `ws://127.0.0.1:8080`. Sinkronisasi pengubahan pada kedua file ini sangat krusial
+karena ketidaksesuaian penetapan port antara klien dan server akan langsung menggagalkan proses penghubungan jaringan
+dan memicu eror penolakan koneksi.
+
+Mengenai karakteristik komunikasi jaringan yang terjadi, baik klien maupun server tetap mempertahankan pemakaian
+protokol WebSocket yang sama untuk menjamin pertukaran data dua arah secara full-duplex dan real-time. Keberadaan
+protokol ini didefinisikan secara eksplisit pada kode klien melalui penggunaan skema URI berawalan `ws://`, yang secara
+spesifik memerintahkan pustaka jaringan untuk menginisialisasi jabat tangan WebSocket, bukan HTTP konvensional. Di sisi
+server, penegasan protokol ini terjadi secara implisit ketika aliran data TCP mentah (`TcpStream`) dibungkus dan
+divalidasi menggunakan ekspresi asinkron `ServerBuilder::new().accept(socket).await` untuk menangani siklus hidup
+koneksi. Secara struktural, seluruh aturan baku mengenai message framing dan manajemen soket ini diatur oleh pustaka
+eksternal `tokio_websockets` yang telah dideklarasikan secara terpusat di dalam konfigurasi `Cargo.toml`..
