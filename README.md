@@ -98,3 +98,29 @@ server, penegasan protokol ini terjadi secara implisit ketika aliran data TCP me
 divalidasi menggunakan ekspresi asinkron `ServerBuilder::new().accept(socket).await` untuk menangani siklus hidup
 koneksi. Secara struktural, seluruh aturan baku mengenai message framing dan manajemen soket ini diatur oleh pustaka
 eksternal `tokio_websockets` yang telah dideklarasikan secara terpusat di dalam konfigurasi `Cargo.toml`..
+
+## Experiment 2.3: Small changes, add IP and Port
+
+### Hasil Eksekusi Program
+Berikut adalah screenshot dari jalannya program boradcast chat yang menampilkan penyertaan informasi alamat IP dan nomor
+port pengirim pada setiap pesan lintas klien:
+![Hasil Eksekusi Bagian 1](./image-2-3-1.png)
+![Hasil Eksekusi Bagian 2](./image-2-3-2.png)
+![Hasil Eksekusi Bagian 3](./image-2-3-3.png)
+
+Implementasi modifikasi penambahan informasi alamat IP dan nomor port pengirim ini ditempatkan sepenuhnya di dalam
+berkas server `src/bin/server.rs`, khususnya pada fungsi asinkron `handle_connection`. Langkah pengubahan ini dilakukan
+di sisi server karena komponen tersebut merupakan central hub jaringan yang secara otomatis memegang kendali atas
+metadata koneksi seluruh klien yang terhubung melalui variabel `addr` yang bertipe data `SocketAddr`. Ketika server
+menerima pesan teks murni dari salah satu klien melalui aliran data jaringan WebSocket (`WebSocketStream`), server
+segera mengintersepsi pesan tersebut lalu mengonstruksi ulang string kodenya dengan menyisipkan variabel identitas soket
+pengirim sebelum diteruskan ke ujung pengirim saluran penyiaran (`bcast_tx`).
+
+Keputusan arsitektur untuk memformat identitas jaringan di sisi server ini memiliki keunggulan yang sangat signifikan
+dari sudut pandang efisiensi sistem dan validitas data dibandingkan jika modifikasi serupa diterapkan pada sisi klien
+individual. server bertindak sebagai central trusted authority dalam mendeteksi alamat jaringan asli klien sehingga
+mencegah potensi manipulasi identitas atau spoofing yang rentan terjadi jika klien diizinkan mengirimkan string nama
+atau alamatnya sendiri. Melalui pemanfaatan pustaka Tokio, setiap pesan yang dialirkan ke dalam saluran broadcast MPSC
+secara otomatis membawa informasi terformat yang seragam, sehingga makro asinkron `tokio::select!` pada terminal klien
+lain dapat langsung menangkap data tersebut dan mencetaknya secara instan ke layar pengguna tanpa memerlukan komputasi
+atau pengolahan string tambahan di sisi penerima.

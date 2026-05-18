@@ -19,7 +19,7 @@ async fn handle_connection(
                 match incoming {
                     Some(Ok(msg)) => {
                         if let Some(text) = msg.as_text() {
-                            let formatted_msg = format!("[{}]: {}", addr, text);
+                            let formatted_msg = format!("[SENDER IP/PORT - {}]: {}", addr, text);
                             let _ = bcast_tx.send(formatted_msg);
                         }
                     }
