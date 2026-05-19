@@ -14,10 +14,30 @@
         <feature name="default" enabled="true" />
       </package>
     </cargoProject>
+    <cargoProject FILE="$PROJECT_DIR$/YewChat/Cargo.toml">
+      <package file="$PROJECT_DIR$/YewChat">
+        <feature name="default" enabled="true" />
+      </package>
+    </cargoProject>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="639ad65f-0989-49b1-a26e-55368df532ea" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/YewChat/src/components/chat.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YewChat/src/components/login.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YewChat/src/components/mod.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YewChat/src/services/event_bus.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YewChat/src/services/mod.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/YewChat/src/services/websocket.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SimpleWebsocketServer" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/YewChat" beforeDir="false" afterPath="$PROJECT_DIR$/YewChat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YewChat/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/YewChat/Cargo.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YewChat/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/YewChat/Cargo.toml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YewChat/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/YewChat/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YewChat/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/YewChat/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YewChat/src/lib.rs" beforeDir="false" afterPath="$PROJECT_DIR$/YewChat/src/lib.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/YewChat/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/YewChat/static/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/timer/target/.rustc_info.json" beforeDir="false" afterPath="$PROJECT_DIR$/timer/target/.rustc_info.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,8 +46,15 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="RsBuildProfile:dev" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Rust File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/YewChat" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -81,6 +108,11 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Zhafira Yoga Pro 7\Documents\pacil\sem 4\adpro\code\Modul-10-Asynchronous-Programming\YewChat\src" />
+    </key>
+  </component>
   <component name="RunManager" selected="Cargo.Run modul10_async">
     <configuration name="Run modul10_async" type="CargoCommandRunConfiguration" factoryName="Cargo Command">
       <option name="buildProfileId" value="dev" />
@@ -139,6 +171,12 @@
       <workItem from="1779107365358" duration="10552000" />
       <workItem from="1779123490188" duration="1514000" />
       <workItem from="1779149340725" duration="2807000" />
+      <workItem from="1779182019316" duration="1328000" />
+      <workItem from="1779185183826" duration="360000" />
+      <workItem from="1779185591738" duration="364000" />
+      <workItem from="1779185986886" duration="106000" />
+      <workItem from="1779186155838" duration="3343000" />
+      <workItem from="1779189744001" duration="959000" />
     </task>
     <servers />
   </component>
